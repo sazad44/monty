@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include <string.h>
 
+extern unsigned int lnum;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -38,6 +40,12 @@ typedef struct instruction_s
         char *opcode;
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
-
+/*FILE HELPERS*/
 char *read_file(int fd);
+
+/*EXE HELPERS*/
+int bc_exe(char *ipt, stack_t **stack);
+
+/*OPCODE FUNCS*/
+void push(stack_t **stack, unsigned int line_number);
 #endif

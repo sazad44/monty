@@ -8,8 +8,9 @@
  */
 int main(int argc, char *argv[])
 {
-	int fd1;
+	int fd1, res;
 	char *ipt;
+	stack_t *stack;
 
 	if (argc != 2)
 	{
@@ -22,8 +23,13 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
+	stack->n = 0;
+	stack->next = NULL;
+	stack->prev = NULL;
 	ipt = read_file(fd1);
-	printf("%s", ipt);
+	res = bc_exe(ipt, &stack);
+	if (res == -1)
+		printf("Error\n");
 	close(fd1);
 	free(ipt);
 	return (0);
