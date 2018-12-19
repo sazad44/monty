@@ -19,8 +19,9 @@ char *read_file(int fd)
 		free(ret);
 		ret = tmp;
 		free(tmp);
-		rd += read(fd, ret, bufsize);
+		rd += read(fd, ret + bufsize / 2, bufsize / 2);
 		if (rd == -1)
 			return (NULL);
 	}
+	return (ret);
 }

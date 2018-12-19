@@ -9,6 +9,7 @@
 int main(int argc, char *argv[])
 {
 	int fd1;
+	char *ipt;
 
 	if (argc != 2)
 	{
@@ -21,6 +22,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
+	ipt = read_file(fd1);
+	printf("%s", ipt);
 	close(fd1);
 	return (0);
 }
