@@ -25,5 +25,6 @@ int main(int argc, char *argv[])
 	ipt = read_file(fd1);
 	printf("%s", ipt);
 	close(fd1);
+	free(ipt);
 	return (0);
 }
