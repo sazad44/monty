@@ -52,6 +52,7 @@ char *read_file(int fd);
 
 /*EXE HELPERS*/
 int bc_exe(char *ipt, stack_t **stack);
+void free_stack(stack_t *head);
 
 /*OPCODE FUNCS*/
 void push(stack_t **stack, unsigned int line_number);

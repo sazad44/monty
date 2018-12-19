@@ -30,6 +30,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
+	glo->ipt = NULL;
+	glo->iptint = 0;
 	glo->ipt = read_file(fd1);
 	if (glo->ipt == NULL)
 	{
@@ -44,6 +46,8 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	close(fd1);
+	free_stack(stack);
 	free(glo->ipt);
+	free(glo);
 	return (0);
 }
