@@ -1,6 +1,5 @@
 #include "monty.h"
 
-unsigned int lnum = 1;
 /**
  * bc_exe - tokenizes string and executes operations specified
  * @ipt: the input string to be tokenized
@@ -9,7 +8,7 @@ unsigned int lnum = 1;
  */
 int bc_exe(char *ipt, stack_t **stack)
 {
-	unsigned int toklen, i, j, iptint = 0;
+	unsigned int toklen, i, j, lnum = 1;
 	instruction_t instarr[] = {
 		{"push", push}, {NULL, NULL}
 	};
@@ -20,17 +19,22 @@ int bc_exe(char *ipt, stack_t **stack)
 		;
 	for (toklen = i; tok[toklen] != ' '; toklen++)
 		;
-	tokop = malloc(sizeof(char) * toklen);
+	tokop = malloc(sizeof(char) * toklen - i + 1);
 	if (tokop == NULL)
 		return (0);
-	tokop = strncpy(tokop, tok + i, toklen - i - 1);
+	tokop = memset(tokop, 0, toklen - i + 1);
+	tokop = strncpy(tokop, tok + i, toklen - i);
 	for (j = 0; instarr[j].opcode; j++)
 	{
-		if (!strcmp(tokop, "sh"))
-			printf("hi %d\n", iptint);
-		else if (strcmp(tokop, instarr[j].opcode))
+		for (; tok[toklen] == ' ' && tok[toklen]; toklen++)
+			;
+		glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen));
+		if (!strcmp(tokop, instarr[j].opcode))
 			instarr[j].f(stack, lnum);
+		lnum++;
 	}
 	free(tokop);
-	return (0);
+	if (instarr[j].opcode == NULL)
+		return (-1);
+	return (lnum);
 }

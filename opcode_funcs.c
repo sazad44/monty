@@ -2,14 +2,14 @@
 
 void push(stack_t **stack, unsigned int line_number)
 {
-	if (*stack && line_number)
+	(void)stack;
+	if (glo->iptint)
 	{
-		printf("%d\n", line_number);
-		(*stack)->n = line_number;
+		printf("%d\n", glo->iptint);
 	}
 	else
 	{
-		fprintf(stderr, "L%u: usage: push integer\n", lnum);
+		fprintf(stderr, "L%u: usage: push integer\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 }
