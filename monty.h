@@ -39,5 +39,20 @@ typedef struct instruction_s
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+typedef struct global_s
+{
+	char *ipt;
+	int iptint;
+} glo_t;
+
+extern glo_t *glo;
+
+/*FILE HELPERS*/
 char *read_file(int fd);
+
+/*EXE HELPERS*/
+int bc_exe(char *ipt, stack_t **stack);
+
+/*OPCODE FUNCS*/
+void push(stack_t **stack, unsigned int line_number);
 #endif
