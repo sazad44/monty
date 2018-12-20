@@ -3,10 +3,10 @@ push    -67
 
 
 
-   pall   
+   pallh   
       pint  
    pop
-   push 67 c
+   push 67c
 pall
 hi
 
