@@ -11,9 +11,10 @@ int bc_exe(char *ipt, stack_t **stack)
 	unsigned int toklen = 0, i = 0, j = 0, lnum = 1, flag = 0;
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},
+		{"pint", pint}, {"pop", pop},
 		{NULL, NULL}
 	};
-	char *tok, *tokop;
+	char *tok;
 
 	tok = strtok(ipt, "\n");
 	while (tok)
@@ -22,26 +23,26 @@ int bc_exe(char *ipt, stack_t **stack)
 			;
 		for (toklen = i; tok[toklen] && tok[toklen] != ' '; toklen++)
 			;
-		tokop = malloc(sizeof(char) * toklen - i + 1);
-		if (tokop == NULL)
+		glo->tokop = malloc(sizeof(char) * toklen - i + 1);
+		if (glo->tokop == NULL)
 			return (0);
-		tokop = memset(tokop, 0, toklen - i + 1);
-		tokop = strncpy(tokop, tok + i, toklen - i);
+		glo->tokop = memset(glo->tokop, 0, toklen - i + 1);
+		glo->tokop = strncpy(glo->tokop, tok + i, toklen - i);
 		for (j = 0; instarr[j].opcode; j++)
 		{
-			if (!strcmp(tokop, "push"))
+			if (!strcmp(glo->tokop, "push"))
 			{
 				for (; tok[toklen] && tok[toklen] == ' '; toklen++)
 					;
 				if (!isdigit(tok[toklen]))
 				{
 					fprintf(stderr, "L%u: usage: push integer\n", lnum);
-					free(glo->ipt), free_stack(*stack), free(glo);
+					free(glo->ipt), free_stack(*stack), free(glo->tokop), free(glo);
 					exit(EXIT_FAILURE);
 				}
 				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); 
 			}
-			if (!strcmp(tokop, instarr[j].opcode))
+			if (!strcmp(glo->tokop, instarr[j].opcode))
 			{
 				instarr[j].f(stack, lnum);
 				flag = 1;
@@ -50,16 +51,16 @@ int bc_exe(char *ipt, stack_t **stack)
 		if (instarr[j].opcode == NULL && !flag)
 		{
 			free(glo->ipt);
-			free(glo);
 			free_stack(*stack);
-			fprintf(stderr, "L%u: unknown instruction %s\n", lnum, tokop);
-			free(tokop);
+			fprintf(stderr, "L%u: unknown instruction %s\n", lnum, glo->tokop);
+			free(glo->tokop);
+			free(glo);
 			exit(EXIT_FAILURE);
 		}
 		tok = strtok(NULL, "\n"), glo->iptint = 0;
 		lnum++;
 		flag = 0;
-		free(tokop);
+		free(glo->tokop);
 	}
 	return (lnum);
 }
