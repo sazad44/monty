@@ -5,7 +5,11 @@ pint
 push 3
 pint
 pall
-poop
+pop
+pint
+pop
+pint
+pop
 pint
 pop
 pint
