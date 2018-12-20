@@ -67,5 +67,8 @@ void pop(stack_t **stack, unsigned int line_number)
 		(*stack)->prev = NULL;
 	}
 	else
+	{
 		free(*stack);
+		*stack = NULL;
+	}
 }
