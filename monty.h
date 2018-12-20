@@ -44,6 +44,7 @@ typedef struct global_s
 {
 	char *ipt;
 	int iptint;
+	char *tokop;
 } glo_t;
 
 extern glo_t *glo;
@@ -59,5 +60,6 @@ size_t print_stack(const stack_t *h);
 /*OPCODE FUNCS*/
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
-
+void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
 #endif

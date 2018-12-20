@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
-	glo->ipt = NULL;
+	glo->ipt = NULL, glo->tokop = NULL;
 	glo->iptint = 0;
 	glo->ipt = read_file(fd1);
 	res = bc_exe(glo->ipt, &stack);
