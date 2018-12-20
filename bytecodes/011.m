@@ -1,0 +1,13 @@
+push    -67   
+
+
+
+
+   pall   
+      pint  
+   pop
+   push 67 c
+pall
+hi
+
+
