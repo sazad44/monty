@@ -59,7 +59,7 @@ void pint(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * pop - pushes an element onto the stack
+ * pop - deletes the top element of the stack
  * @stack: pointer to a pointer to a stack
  * @line_number: line number
  * Return: No Value
@@ -86,7 +86,7 @@ void pop(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * nop - pushes an element onto the stack
+ * nop - no effect
  * @stack: pointer to a pointer to a stack
  * @line_number: line number
  * Return: No Value
