@@ -52,12 +52,13 @@ int bc_exe(char *ipt, stack_t **stack)
 			free(glo->ipt);
 			free(glo);
 			free_stack(*stack);
-			fprintf(stderr, "%u: unknown instruction %s\n", lnum, tokop);
+			fprintf(stderr, "L%u: unknown instruction %s\n", lnum, tokop);
 			free(tokop);
 			exit(EXIT_FAILURE);
 		}
 		tok = strtok(NULL, "\n"), glo->iptint = 0;
 		lnum++;
+		flag = 0;
 		free(tokop);
 	}
 	return (lnum);
