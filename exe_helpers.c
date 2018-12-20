@@ -12,7 +12,7 @@ int bc_exe(char *ipt, stack_t **stack)
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},
 		{"pint", pint}, {"pop", pop},
-		{NULL, NULL}
+		{"nop", nop}, {NULL, NULL}
 	};
 	char *tok;
 
@@ -48,7 +48,7 @@ int bc_exe(char *ipt, stack_t **stack)
 				flag = 1;
 			}
 		}
-		if (instarr[j].opcode == NULL && !flag)
+		if (instarr[j].opcode == NULL && !flag && *(glo->tokop))
 		{
 			free(glo->ipt);
 			free_stack(*stack);
