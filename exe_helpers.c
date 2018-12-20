@@ -8,15 +8,15 @@
  */
 int bc_exe(char *ipt, stack_t **stack)
 {
-	unsigned int toklen = 0, i = 0, j = 0, lnum = 1, flag = 0;
+	unsigned int toklen = 0, i, j = 0, lnum = 1, flag = 0, lnumx = 0, toklenx = 0;
 	instruction_t instarr[] = {
-		{"push", push}, {"pall", pall},
-		{"pint", pint}, {"pop", pop},
-		{"nop", nop}, {"swap", swap},
-		{"add", add}, {NULL, NULL}
+		{"push", push}, {"pall", pall},	{"pint", pint}, {"pop", pop},
+		{"nop", nop}, {"swap", swap}, {"add", add}, {NULL, NULL}
 	};
 	char *tok;
 
+	for (toklenx = 0; ipt[toklenx] == '\n'; toklenx++)
+		lnumx++;
 	tok = strtok(ipt, "\n");
 	while (tok)
 	{
@@ -35,33 +35,69 @@ int bc_exe(char *ipt, stack_t **stack)
 			{
 				for (; tok[toklen] && tok[toklen] == ' '; toklen++)
 					;
-				if (!isdigit(tok[toklen]))
-				{
-					fprintf(stderr, "L%u: usage: push integer\n", lnum);
-					free(glo->ipt), free_stack(*stack), free(glo->tokop), free(glo);
-					exit(EXIT_FAILURE);
-				}
-				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); 
-			}
+				for (toklenx = toklen; tok[toklenx] != ' ' && tok[toklenx]; toklenx++)
+					if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
+						free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");
+				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); }
 			if (!strcmp(glo->tokop, instarr[j].opcode))
-			{
-				instarr[j].f(stack, lnum);
-				flag = 1;
-			}
-		}
+				instarr[j].f(stack, lnum + lnumx), flag = 1; }
+		lnumx += nl_count(tok);
 		if (instarr[j].opcode == NULL && !flag && *(glo->tokop))
-		{
-			free(glo->ipt);
-			free_stack(*stack);
-			fprintf(stderr, "L%u: unknown instruction %s\n", lnum, glo->tokop);
-			free(glo->tokop);
-			free(glo);
-			exit(EXIT_FAILURE);
-		}
+			free_exit_ui(*stack, lnum + lnumx, "L%u: unknown instruction %s\n");
 		tok = strtok(NULL, "\n"), glo->iptint = 0;
-		lnum++;
-		flag = 0;
-		free(glo->tokop);
+		lnum++, flag = 0, free(glo->tokop);
 	}
-	return (lnum);
+	return (lnum + lnumx);
+}
+
+/**
+ * free_exit_ui - frees and exits with message and opcode
+ * @stack: a pointer to the top of the stack
+ * @lnum: line number
+ * @mssg: message to be printed to stderr
+ * Return: No Value
+ */
+void free_exit_ui(stack_t *stack, unsigned int lnum, char *mssg)
+{
+	fprintf(stderr, mssg, lnum, glo->tokop);
+	free(glo->ipt);
+	free(glo->tokop);
+	free(glo);
+	if (stack)
+		free_stack(stack);
+	exit(EXIT_FAILURE);
+}
+
+/**
+ * free_exit - frees and exits with message
+ * @stack: a pointer to the top of the stack
+ * @lnum: line number
+ * @mssg: message to be printed to stderr
+ * Return: No Value
+ */
+void free_exit(stack_t *stack, unsigned int lnum, char *mssg)
+{
+	fprintf(stderr, mssg, lnum);
+	free(glo->ipt);
+	free(glo->tokop);
+	free(glo);
+	if (stack)
+		free_stack(stack);
+	exit(EXIT_FAILURE);
+}
+
+/**
+ * nl_count - counts new lines after a certain line
+ * @tok: a pointer to the token before the new lines to be counted
+ * Return: number of new lines counted
+ */
+int nl_count(char *tok)
+{
+	int toklenx, i, lnumx = 0;
+
+	for (toklenx = 0; tok[toklenx]; toklenx++)
+		;
+	for (i = 1; tok[toklenx + i] == '\n'; i++)
+		lnumx++;
+	return (lnumx);
 }

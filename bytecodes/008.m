@@ -4,7 +4,7 @@ push 3
         pop
 pop
     pall
-push 845
+push 845h
 pint
 pall
 swap
