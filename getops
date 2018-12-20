@@ -1,0 +1,39 @@
+#include "monty.h"
+/**
+ * get_ops - determines which function to return
+ * @stack: stack 
+ * @line_number: ?
+ * Return: function based on specifier
+ *
+*/
+void get_ops(token,stack_t **stack, unsigned int line_number)
+{
+	/**
+	 * array of structs that will return correct function
+	 * based on opcode
+	 */
+	int k = 0;
+
+	istructions_t specs[] = {
+		{"push", push}
+		{"pall", pall}
+		{"pint", pint}
+		{"pop", pop}
+		{"swap", swap}
+		{"add", add}
+		{"nop", nop}
+		{NULL, NULL}
+	};
+	while (specs[a].opcode)
+	{
+		if (strcmp(token, specs[k].opcode) == 0)
+		{
+			specs[k].f(stack, line_number);
+			return;
+		}
+		k++;
+	}
+	free(stack);
+	exit(exit_failure);
+} 
+}
