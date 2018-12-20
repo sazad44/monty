@@ -36,7 +36,7 @@ int bc_exe(char *ipt, stack_t **stack)
 				if (!isdigit(tok[toklen]))
 				{
 					fprintf(stderr, "L%u: usage: push integer\n", lnum);
-					free(glo->ipt), free_stack(*stack), free(glo);
+					free(glo->ipt), free_stack(*stack), free(glo), free(tokop);
 					exit(EXIT_FAILURE);
 				}
 				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); 
