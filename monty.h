@@ -21,9 +21,9 @@
  */
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 /**
@@ -36,10 +36,18 @@ typedef struct stack_s
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+/**
+ * struct global_s - input buffer, push integer, and token opcode
+ * @ipt: buffer with file info
+ * @iptint: integer for push when called
+ * @tokop: token of opcode
+ * Description: input and token buffers along with integer for push
+ * for stack, queues, LIFO, FIFO Holberton Project
+ */
 typedef struct global_s
 {
 	char *ipt;
@@ -56,6 +64,9 @@ char *read_file(int fd);
 int bc_exe(char *ipt, stack_t **stack);
 void free_stack(stack_t *head);
 size_t print_stack(const stack_t *h);
+void free_exit_ui(stack_t *stack, unsigned int lnum, char *mssg);
+void free_exit(stack_t *stack, unsigned int lnum, char *mssg);
+int nl_count(char *tok);
 
 /*OPCODE FUNCS*/
 void push(stack_t **stack, unsigned int line_number);
