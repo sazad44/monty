@@ -33,15 +33,12 @@ int main(int argc, char *argv[])
 	glo->ipt = NULL;
 	glo->iptint = 0;
 	glo->ipt = read_file(fd1);
-	if (glo->ipt == NULL)
-	{
-		fprintf(stderr, "Error: malloc failed\n");
-		exit(EXIT_FAILURE);
-	}
 	res = bc_exe(glo->ipt, &stack);
 	if (res == 0)
 	{
 		free(glo->ipt);
+		free_stack(stack);
+		free(glo);
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}

@@ -8,7 +8,7 @@
  */
 int bc_exe(char *ipt, stack_t **stack)
 {
-	unsigned int toklen = 0, i = 0, j = 0, lnum = 1;
+	unsigned int toklen = 0, i = 0, j = 0, lnum = 1, flag = 0;
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},
 		{NULL, NULL}
@@ -20,7 +20,7 @@ int bc_exe(char *ipt, stack_t **stack)
 	{
 		for (i = 0; tok[i] == ' '; i++)
 			;
-		for (toklen = i; tok[toklen] != ' ' && tok[toklen]; toklen++)
+		for (toklen = i; tok[toklen] && tok[toklen] != ' '; toklen++)
 			;
 		tokop = malloc(sizeof(char) * toklen - i + 1);
 		if (tokop == NULL)
@@ -36,16 +36,29 @@ int bc_exe(char *ipt, stack_t **stack)
 				if (!isdigit(tok[toklen]))
 				{
 					fprintf(stderr, "L%u: usage: push integer\n", lnum);
-					free(glo->ipt), free_stack(*stack);
+					free(glo->ipt), free_stack(*stack), free(glo);
 					exit(EXIT_FAILURE);
 				}
-				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); }
+				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); 
+			}
 			if (!strcmp(tokop, instarr[j].opcode))
-				instarr[j].f(stack, lnum); }
+			{
+				instarr[j].f(stack, lnum);
+				flag = 1;
+			}
+		}
+		if (instarr[j].opcode == NULL && !flag)
+		{
+			free(glo->ipt);
+			free(glo);
+			free_stack(*stack);
+			fprintf(stderr, "%u: unknown instruction %s\n", lnum, tokop);
+			free(tokop);
+			exit(EXIT_FAILURE);
+		}
 		tok = strtok(NULL, "\n"), glo->iptint = 0;
-		lnum++; }
-	free(tokop);
-	if (instarr[j].opcode == NULL)
-		return (-1);
+		lnum++;
+		free(tokop);
+	}
 	return (lnum);
 }
