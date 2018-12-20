@@ -4,7 +4,7 @@
  * push - pushes an element onto the stack
  * @stack: pointer to a pointer to a stack
  * @line_number: line number
- * Return: nothing
+ * Return: No Value
 */
 void push(stack_t **stack, unsigned int line_number)
 {
@@ -33,7 +33,7 @@ void push(stack_t **stack, unsigned int line_number)
  * pall - pushes an element onto the stack
  * @stack: pointer to a pointer to a stack
  * @line_number: line number
- * Return: nothing
+ * Return: No Value
 */
 void pall(stack_t **stack, unsigned int line_number)
 {
@@ -41,6 +41,12 @@ void pall(stack_t **stack, unsigned int line_number)
 	print_stack(*stack);
 }
 
+/**
+ * pint - prints the top value of the stack
+ * @stack: pointer to a pointer to a stack
+ * @line_number: line number
+ * Return: No Value
+*/
 void pint(stack_t **stack, unsigned int line_number)
 {
 	if (stack == NULL || *stack == NULL)
@@ -52,6 +58,12 @@ void pint(stack_t **stack, unsigned int line_number)
 	printf("%d\n", (*stack)->n);
 }
 
+/**
+ * pop - pushes an element onto the stack
+ * @stack: pointer to a pointer to a stack
+ * @line_number: line number
+ * Return: No Value
+*/
 void pop(stack_t **stack, unsigned int line_number)
 {
 	if (stack == NULL || *stack == NULL)
@@ -73,9 +85,14 @@ void pop(stack_t **stack, unsigned int line_number)
 	}
 }
 
+/**
+ * nop - pushes an element onto the stack
+ * @stack: pointer to a pointer to a stack
+ * @line_number: line number
+ * Return: No Value
+*/
 void nop(stack_t **stack, unsigned int line_number)
 {
 	(void)stack;
 	(void)line_number;
-	return;
 }
