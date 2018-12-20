@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <ctype.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -53,7 +54,10 @@ char *read_file(int fd);
 /*EXE HELPERS*/
 int bc_exe(char *ipt, stack_t **stack);
 void free_stack(stack_t *head);
+size_t print_stack(const stack_t *h);
 
 /*OPCODE FUNCS*/
 void push(stack_t **stack, unsigned int line_number);
+void pall(stack_t **stack, unsigned int line_number);
+
 #endif

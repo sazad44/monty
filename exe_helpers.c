@@ -8,31 +8,42 @@
  */
 int bc_exe(char *ipt, stack_t **stack)
 {
-	unsigned int toklen, i, j, lnum = 1;
+	unsigned int toklen = 0, i = 0, j = 0, lnum = 1;
 	instruction_t instarr[] = {
-		{"push", push}, {NULL, NULL}
+		{"push", push}, {"pall", pall},
+		{NULL, NULL}
 	};
 	char *tok, *tokop;
 
 	tok = strtok(ipt, "\n");
-	for (i = 0; tok[i] == ' '; i++)
-		;
-	for (toklen = i; tok[toklen] != ' '; toklen++)
-		;
-	tokop = malloc(sizeof(char) * toklen - i + 1);
-	if (tokop == NULL)
-		return (0);
-	tokop = memset(tokop, 0, toklen - i + 1);
-	tokop = strncpy(tokop, tok + i, toklen - i);
-	for (j = 0; instarr[j].opcode; j++)
+	while (tok)
 	{
-		for (; tok[toklen] == ' ' && tok[toklen]; toklen++)
+		for (i = 0; tok[i] == ' '; i++)
 			;
-		glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen));
-		if (!strcmp(tokop, instarr[j].opcode))
-			instarr[j].f(stack, lnum);
-		lnum++;
-	}
+		for (toklen = i; tok[toklen] != ' ' && tok[toklen]; toklen++)
+			;
+		tokop = malloc(sizeof(char) * toklen - i + 1);
+		if (tokop == NULL)
+			return (0);
+		tokop = memset(tokop, 0, toklen - i + 1);
+		tokop = strncpy(tokop, tok + i, toklen - i);
+		for (j = 0; instarr[j].opcode; j++)
+		{
+			if (!strcmp(tokop, "push"))
+			{
+				for (; tok[toklen] && tok[toklen] == ' '; toklen++)
+					;
+				if (!isdigit(tok[toklen]))
+				{
+					fprintf(stderr, "L%u: usage: push integer\n", lnum);
+					free(glo->ipt), free_stack(*stack);
+					exit(EXIT_FAILURE);
+				}
+				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); }
+			if (!strcmp(tokop, instarr[j].opcode))
+				instarr[j].f(stack, lnum); }
+		tok = strtok(NULL, "\n"), glo->iptint = 0;
+		lnum++; }
 	free(tokop);
 	if (instarr[j].opcode == NULL)
 		return (-1);
