@@ -11,7 +11,7 @@ int bc_exe(char *ipt, stack_t **stack)
 	unsigned int toklen = 0, i, j = 0, lnum = 1, flag = 0, lnumx = 0, toklenx = 0;
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},	{"pint", pint}, {"pop", pop},
-		{"nop", nop}, {"swap", swap}, {"add", add},{"sub",sub}, {NULL, NULL}
+		{"nop", nop}, {"swap", swap}, {"add", add}, {"sub",sub}, {NULL, NULL}
 	};
 	char *tok;
 
