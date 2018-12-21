@@ -35,6 +35,8 @@ int bc_exe(char *ipt, stack_t **stack)
 			{
 				for (; tok[toklen] && tok[toklen] == ' '; toklen++)
 					;
+				if (!tok[toklen])
+					free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");
 				for (toklenx = toklen; tok[toklenx] != ' ' && tok[toklenx]; toklenx++)
 					if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
 						free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");

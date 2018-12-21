@@ -49,12 +49,12 @@ void add(stack_t **stack, unsigned int line_number)
 */
 void sub(stack_t **stack, unsigned int line_number)
 {
-	if (stack == NULL || (*stack)->next == NULL || *stack == NULL)
+	if (*stack == NULL || (*stack)->next == NULL)
 	{
-		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
 		free(glo->ipt), free(glo->tokop), free(glo);
 		if (*stack)
-			free(*stack);
+			free_stack(*stack);
+		fprintf(stderr, "L%u: can't sub, stack too short\n", line_number);
 		exit(EXIT_FAILURE);
 	}
 	*stack = (*stack)->next;
