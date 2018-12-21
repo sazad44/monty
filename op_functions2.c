@@ -51,7 +51,7 @@ void sub(stack_t **stack, unsigned int line_number)
 {
 	if (stack == NULL || (*stack)->next == NULL || *stack == NULL)
 	{
-		printf("L%d: can't swap, stack too short\n", line_number);
+		printf("L%u: can't sub, stack too short\n", line_number);
 		free(glo->ipt), free(glo->tokop), free(glo);
 		exit(EXIT_FAILURE);
 	}
