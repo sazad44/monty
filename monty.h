@@ -70,6 +70,7 @@ size_t print_stack(const stack_t *h);
 void free_exit_ui(stack_t *stack, unsigned int lnum, char *mssg);
 void free_exit(stack_t *stack, unsigned int lnum, char *mssg);
 int nl_count(char *tok);
+char *tokop_init(char *tok, int tok_offset);
 
 /*OPCODE FUNCS*/
 void push(stack_t **stack, unsigned int line_number);

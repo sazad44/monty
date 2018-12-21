@@ -55,6 +55,13 @@ void push_check(int toklenx, char *tok, stack_t *stack, int lnum)
 			free_exit(stack, lnum, "L%u: usage: push integer\n");
 }
 
+/**
+ * comment_check - checks for comments and ignores them
+ * @lnum: the address of lnum to be changed in this function
+ * @i: the index which the token is moved to to avoid spaces
+ * @tok: a pointer to a pointer to the token to change it
+ * Return: a boolean value for true or false
+ */
 bool comment_check(unsigned int *lnum, int i, char **tok)
 {
 	if (*tok[i] == '#')
