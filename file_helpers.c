@@ -39,3 +39,18 @@ char *read_file(int fd)
 	}
 	return (ret);
 }
+
+/**
+ * push_check - checks to see if push is being used correctly
+ * @toklenx: the index at which the input for push begins
+ * @tok: a pointer to the token being analyzed
+ * @stack: a pointer to the first element of the stack
+ * @lnum: the line number at the time
+ * Return: No Value
+ */
+void push_check(int toklenx, char *tok, stack_t *stack, int lnum)
+{
+	for (; tok[toklenx] != ' ' && tok[toklenx]; toklenx++)
+		if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
+			free_exit(stack, lnum, "L%u: usage: push integer\n");
+}

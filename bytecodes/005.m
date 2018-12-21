@@ -1,3 +1,5 @@
-push 1
+
+
+push 
 pop
 pint

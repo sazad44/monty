@@ -11,7 +11,8 @@ int bc_exe(char *ipt, stack_t **stack)
 	unsigned int toklen = 0, i, j = 0, lnum = 1, flag = 0, lnumx = 0, toklenx = 0;
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},	{"pint", pint}, {"pop", pop},
-		{"nop", nop}, {"swap", swap}, {"add", add}, {"sub", sub}, {NULL, NULL}
+		{"nop", nop}, {"swap", swap}, {"add", add}, {"sub", sub}, {"div", _div},
+		{"mul", mul}, {NULL, NULL}
 	};
 	char *tok;
 
@@ -37,9 +38,7 @@ int bc_exe(char *ipt, stack_t **stack)
 					;
 				if (!tok[toklen])
 					free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");
-				for (toklenx = toklen; tok[toklenx] != ' ' && tok[toklenx]; toklenx++)
-					if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
-						free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");
+				push_check(toklen, tok, *stack, lnum + lnumx);
 				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); }
 			if (!strcmp(glo->tokop, instarr[j].opcode))
 				instarr[j].f(stack, lnum + lnumx), flag = 1; }
