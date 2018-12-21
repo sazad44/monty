@@ -40,3 +40,23 @@ void add(stack_t **stack, unsigned int line_number)
 	free((*stack)->prev);
 	(*stack)->prev = NULL;
 }
+
+/**
+ * sub - subtracts top two elements in the stack
+ * @stack: stack
+ * @line_number: line number
+ * Return: nothing
+*/
+void sub(stack_t **stack, unsigned int line_number)
+{
+	if (stack == NULL || (*stack)->next == NULL || *stack == NULL)
+	{
+		printf("L%d: can't swap, stack too short\n", line_number);
+		free(glo->ipt), free(glo->tokop), free(glo);
+		exit(EXIT_FAILURE);
+	}
+	*stack = (*stack)->next;
+	(*stack)->n = (*stack)->n - (*stack)->prev->n;
+	free((*stack)->prev);
+	(*stack)->prev = NULL;
+}
