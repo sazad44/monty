@@ -54,3 +54,14 @@ void push_check(int toklenx, char *tok, stack_t *stack, int lnum)
 		if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
 			free_exit(stack, lnum, "L%u: usage: push integer\n");
 }
+
+bool comment_check(unsigned int *lnum, int i, char **tok)
+{
+	if (*tok[i] == '#')
+	{
+		*lnum += nl_count(*tok) + 1;
+		*tok = strtok(NULL, "\n");
+		return (true);
+	}
+	return (false);
+}

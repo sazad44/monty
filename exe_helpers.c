@@ -23,6 +23,7 @@ int bc_exe(char *ipt, stack_t **stack)
 	{
 		for (i = 0; tok[i] == ' '; i++)
 			;
+		if (comment_check(&lnum, i, &tok)) continue;
 		for (toklen = i; tok[toklen] && tok[toklen] != ' '; toklen++)
 			;
 		glo->tokop = malloc(sizeof(char) * toklen - i + 1);

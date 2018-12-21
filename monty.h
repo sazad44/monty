@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -60,6 +61,7 @@ extern glo_t *glo;
 /*FILE HELPERS*/
 char *read_file(int fd);
 void push_check(int toklenx, char *tok, stack_t *stack, int lnum);
+bool comment_check(unsigned int *lnum, int i, char **tok);
 
 /*EXE HELPERS*/
 int bc_exe(char *ipt, stack_t **stack);
