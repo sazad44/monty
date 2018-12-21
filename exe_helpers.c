@@ -45,10 +45,8 @@ int bc_exe(char *ipt, stack_t **stack)
 				instarr[j].f(stack, lnum + lnumx), flag = 1; }
 		if (instarr[j].opcode == NULL && !flag && *(glo->tokop))
 			free_exit_ui(*stack, lnum + lnumx, "L%u: unknown instruction %s\n");
-		lnumx += nl_count(tok);
-		tok = strtok(NULL, "\n"), glo->iptint = 0;
-		lnum++, flag = 0, free(glo->tokop);
-	}
+		lnumx += nl_count(tok),	tok = strtok(NULL, "\n"), glo->iptint = 0;
+		lnum++, flag = 0, free(glo->tokop); }
 	return (lnum + lnumx);
 }
 
