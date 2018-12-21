@@ -53,6 +53,8 @@ void sub(stack_t **stack, unsigned int line_number)
 	{
 		printf("L%u: can't sub, stack too short\n", line_number);
 		free(glo->ipt), free(glo->tokop), free(glo);
+		if (*stack)
+			free(*stack);
 		exit(EXIT_FAILURE);
 	}
 	*stack = (*stack)->next;
