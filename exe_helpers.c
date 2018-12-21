@@ -12,7 +12,7 @@ int bc_exe(char *ipt, stack_t **stack)
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},	{"pint", pint}, {"pop", pop},
 		{"nop", nop}, {"swap", swap}, {"add", add}, {"sub", sub}, {"div", _div},
-		{"mul", mul}, {NULL, NULL}
+		{"mul", mul}, {"mod", mod}, {NULL, NULL}
 	};
 	char *tok;
 
