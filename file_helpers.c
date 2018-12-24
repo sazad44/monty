@@ -64,7 +64,7 @@ void push_check(int toklenx, char *tok, stack_t *stack, int lnum)
  */
 bool comment_check(unsigned int *lnum, int i, char **tok)
 {
-	if (*tok[i] == '#')
+	if ((*tok)[i] == '#')
 	{
 		*lnum += nl_count(*tok) + 1;
 		*tok = strtok(NULL, "\n");
