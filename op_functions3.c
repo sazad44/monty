@@ -29,3 +29,24 @@ void mod(stack_t **stack, unsigned int line_number)
 	free((*stack)->prev);
 	(*stack)->prev = NULL;
 }
+
+/**
+ * pchar - prints character based on ascii value at top of stack
+ * @stack: pointer to pointer to first node of stack"
+ * @line_number: line number
+ * Return: No Value
+ */
+void pchar(stack_t **stack, unsigned int line_number)
+{
+	if (((*stack)->n > 127) || ((*stack)->n < 0))
+	{
+		fprintf(stderr, "L%u: can't pchar, value out of range", line_number);
+		exit(EXIT_FAILURE);
+	}
+	else if (*stack == NULL)
+	{
+		fprintf(stderr, "L%u: can't pchar, stack empty", line_number);
+		exit(EXIT_FAILURE);
+	}
+	printf("%c\n", (*stack)->n);
+}
