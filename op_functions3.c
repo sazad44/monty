@@ -50,3 +50,26 @@ void pchar(stack_t **stack, unsigned int line_number)
 	}
 	printf("%c\n", (*stack)->n);
 }
+
+/**
+ * pstr - prints string of ascii values defined by nodes in LL
+ * @stack: a pointer to a pointer to the first node in the stack
+ * @line_number: line number
+ * Return: No Value
+ */
+void pstr(stack_t **stack, unsigned int line_number)
+{
+	stack_t *tmp;
+
+	(void)line_number;
+	for (tmp = *stack; tmp; tmp = tmp->next)
+	{
+		if (tmp->n == 0)
+			break;
+		else if ((tmp->n > 127) || (tmp->n < 0))
+			break;
+		else
+			printf("%c", tmp->n);
+	}
+	printf("\n");
+}
