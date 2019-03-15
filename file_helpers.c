@@ -39,3 +39,36 @@ char *read_file(int fd)
 	}
 	return (ret);
 }
+
+/**
+ * push_check - checks to see if push is being used correctly
+ * @toklenx: the index at which the input for push begins
+ * @tok: a pointer to the token being analyzed
+ * @stack: a pointer to the first element of the stack
+ * @lnum: the line number at the time
+ * Return: No Value
+ */
+void push_check(int toklenx, char *tok, stack_t *stack, int lnum)
+{
+	for (; tok[toklenx] != ' ' && tok[toklenx]; toklenx++)
+		if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
+			free_exit(stack, lnum, "L%u: usage: push integer\n");
+}
+
+/**
+ * comment_check - checks for comments and ignores them
+ * @lnum: the address of lnum to be changed in this function
+ * @i: the index which the token is moved to to avoid spaces
+ * @tok: a pointer to a pointer to the token to change it
+ * Return: a boolean value for true or false
+ */
+bool comment_check(unsigned int *lnum, int i, char **tok)
+{
+	if (*tok[i] == '#')
+	{
+		*lnum += nl_count(*tok) + 1;
+		*tok = strtok(NULL, "\n");
+		return (true);
+	}
+	return (false);
+}

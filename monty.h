@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -59,6 +60,8 @@ extern glo_t *glo;
 
 /*FILE HELPERS*/
 char *read_file(int fd);
+void push_check(int toklenx, char *tok, stack_t *stack, int lnum);
+bool comment_check(unsigned int *lnum, int i, char **tok);
 
 /*EXE HELPERS*/
 int bc_exe(char *ipt, stack_t **stack);
@@ -67,6 +70,7 @@ size_t print_stack(const stack_t *h);
 void free_exit_ui(stack_t *stack, unsigned int lnum, char *mssg);
 void free_exit(stack_t *stack, unsigned int lnum, char *mssg);
 int nl_count(char *tok);
+char *tokop_init(char *tok, int tok_offset);
 
 /*OPCODE FUNCS*/
 void push(stack_t **stack, unsigned int line_number);
@@ -77,5 +81,8 @@ void nop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
+void _div(stack_t **stack, unsigned int line_number);
+void mul(stack_t **stack, unsigned int line_number);
+void mod(stack_t **stack, unsigned int line_number);
 
 #endif

@@ -11,7 +11,8 @@ int bc_exe(char *ipt, stack_t **stack)
 	unsigned int toklen = 0, i, j = 0, lnum = 1, flag = 0, lnumx = 0, toklenx = 0;
 	instruction_t instarr[] = {
 		{"push", push}, {"pall", pall},	{"pint", pint}, {"pop", pop},
-		{"nop", nop}, {"swap", swap}, {"add", add}, {"sub", sub}, {NULL, NULL}
+		{"nop", nop}, {"swap", swap}, {"add", add}, {"sub", sub}, {"div", _div},
+		{"mul", mul}, {"mod", mod}, {NULL, NULL}
 	};
 	char *tok;
 
@@ -22,13 +23,13 @@ int bc_exe(char *ipt, stack_t **stack)
 	{
 		for (i = 0; tok[i] == ' '; i++)
 			;
+		if (comment_check(&lnum, i, &tok))
+			continue;
 		for (toklen = i; tok[toklen] && tok[toklen] != ' '; toklen++)
 			;
-		glo->tokop = malloc(sizeof(char) * toklen - i + 1);
-		if (glo->tokop == NULL)
+		glo->tokop = tokop_init(tok + i, toklen - i);
+		if (!glo->tokop)
 			return (0);
-		glo->tokop = memset(glo->tokop, 0, toklen - i + 1);
-		glo->tokop = strncpy(glo->tokop, tok + i, toklen - i);
 		for (j = 0; instarr[j].opcode; j++)
 		{
 			if (!strcmp(glo->tokop, "push"))
@@ -37,9 +38,7 @@ int bc_exe(char *ipt, stack_t **stack)
 					;
 				if (!tok[toklen])
 					free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");
-				for (toklenx = toklen; tok[toklenx] != ' ' && tok[toklenx]; toklenx++)
-					if ((!isdigit(tok[toklenx]) && tok[toklenx] != '-'))
-						free_exit(*stack, lnum + lnumx, "L%u: usage: push integer\n");
+				push_check(toklen, tok, *stack, lnum + lnumx);
 				glo->iptint = ((glo->iptint * 10) + atoi(tok + toklen)); }
 			if (!strcmp(glo->tokop, instarr[j].opcode))
 				instarr[j].f(stack, lnum + lnumx), flag = 1; }
@@ -100,4 +99,22 @@ int nl_count(char *tok)
 	for (i = 1; tok[toklenx + i] == '\n'; i++)
 		lnumx++;
 	return (lnumx);
+}
+
+/**
+ * tokop_init - initializes tokop pointer with copied memory
+ * @tok: the pointer at which the opcode starts
+ * @tok_offset: the length of the token minus the number of spaces
+ * Return: pointer to newly allocated buffer
+ */
+char *tokop_init(char *tok, int tok_offset)
+{
+	char *ret;
+
+	ret = malloc(sizeof(char) * (tok_offset + 1));
+	if (ret == NULL)
+		return (NULL);
+	ret = memset(ret, 0, (tok_offset + 1));
+	ret = strncpy(ret, tok, tok_offset);
+	return (ret);
 }
